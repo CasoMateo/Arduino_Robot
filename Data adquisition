@@ -1,0 +1,109 @@
+#include <Servo.h>
+
+int in1 = 10;
+int in2 = 9;
+int in3 = 6;
+int in4 = 5;
+int EnA = 11;
+int velocity = 30;
+int EchoPin = 2; 
+int TriggerPin = 7;
+
+Servo servomotor = 3;
+
+void setup() {
+
+  Serial.begin(9600); 
+
+  pinMode(in1, OUTPUT); 
+  pinMode(in2, OUTPUT);
+  pinMode(in3, OUTPUT);
+  pinMode(in4, OUTPUT);
+  pinMode(EnA, OUTPUT);
+  pinMode(TriggerPin, OUTPUT);
+  pinMode(EchoPin, OUTPUT);
+
+}
+  
+
+void loop() {
+
+  if int ping(int TriggerPin, int EchoPin, 90) >= 30 {
+    analogWrite(EnA, velocity); 
+    digitalWrite(in1, HIGH); 
+    digitalWrite(in2, LOW);
+    digitalWrite(in3, HIGH);
+    digitalWrite(in4, LOW);
+
+  }
+
+  frenar_motores();
+
+  Serial.write(ping(int TriggerPin, int EchoPin, 0);, (ping(int TriggerPin, int EchoPin, 180););
+
+  
+  if(Serial.available > 0) {
+    message = Serial.read();
+
+    if message == 'x' { 
+      
+      analogWrite(EnA, velocity); 
+      digitalWrite(in3, HIGH);
+      digitalWrite(in4, LOW);
+         
+     }
+
+    if message == 'y' { 
+
+      analogWrite(EnA, velocity);
+      digitalWrite(in1, HIGH); 
+      digitalWrite(in2, LOW);
+
+     }
+    
+   }
+
+   int subir_velocidad() { 
+
+    if velocity <= 240 {
+      
+      int velocity += 10; 
+    }
+   }
+
+   int bajar_velocidad() { 
+
+    if velocity >= 30 { 
+
+      int velocity -= 10
+    }
+   }
+
+   int frenar_motores() {
+
+    digitalWrite(in1, LOW);
+    digitalWrite(in2, LOW); 
+    digitalWrite(in3, LOW);
+    digitalWrite(in4, LOW); 
+ 
+   }
+
+
+   int ping(int TriggerPin, int EchoPin, int position_) {
+      servomotor.write(position_);
+      
+      long duration, distanceCm;
+   
+      digitalWrite(TriggerPin, LOW);  
+      delayMicroseconds(4);
+      digitalWrite(TriggerPin, HIGH);  
+      delayMicroseconds(10);
+      digitalWrite(TriggerPin, LOW);
+   
+      duration = pulseIn(EchoPin, HIGH);  
+   
+      distanceCm = duration * 10 / 292/ 2;   
+      return distanceCm;
+
+}
+    
