@@ -5,6 +5,7 @@ int in2 = 9;
 int in3 = 6;
 int in4 = 5;
 int EnA = 11;
+int EnB = 12;
 int velocity = 30;
 int EchoPin = 2; 
 int TriggerPin = 7;
@@ -58,6 +59,7 @@ void loop() {
 
   if (ping(TriggerPin, EchoPin, 90) >= 30) {
     analogWrite(EnA, velocity); 
+    analogWrite(EnB, velocity);
     digitalWrite(in1, HIGH); 
     digitalWrite(in2, LOW);
     digitalWrite(in3, HIGH);
@@ -77,7 +79,7 @@ void loop() {
 
     if (message == 'a') { 
       
-      analogWrite(EnA, velocity); 
+      analogWrite(EnB, velocity); 
       digitalWrite(in3, HIGH);
       digitalWrite(in4, LOW);
          
@@ -109,6 +111,7 @@ void loop() {
       int velocity = velocity - 10;
     }
    }
+
 
  
 
