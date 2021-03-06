@@ -9,7 +9,7 @@ int velocity = 30;
 int EchoPin = 2; 
 int TriggerPin = 7;
 
-Servo servomotor = 3;
+Servo servomotor;
 
 void setup() {
 
@@ -22,13 +22,41 @@ void setup() {
   pinMode(EnA, OUTPUT);
   pinMode(TriggerPin, OUTPUT);
   pinMode(EchoPin, OUTPUT);
+  servomotor.attach(3);
 
+}
+
+int ping(int TriggerPin, int EchoPin, int position_) {
+  servomotor.write(position_);
+      
+  long duration, distanceCm;
+   
+  digitalWrite(TriggerPin, LOW);  
+  delayMicroseconds(4);
+  digitalWrite(TriggerPin, HIGH);  
+  delayMicroseconds(10);
+  digitalWrite(TriggerPin, LOW);
+   
+  duration = pulseIn(EchoPin, HIGH);  
+   
+  distanceCm = duration * 10 / 292/ 2;   
+  return distanceCm;
+
+}
+
+int frenar_motores() {
+
+  digitalWrite(in1, LOW);
+  digitalWrite(in2, LOW); 
+  digitalWrite(in3, LOW);
+  digitalWrite(in4, LOW); 
+ 
 }
   
 
 void loop() {
 
-  if int ping(int TriggerPin, int EchoPin, 90) >= 30 {
+  if (ping(TriggerPin, EchoPin, 90) >= 30) {
     analogWrite(EnA, velocity); 
     digitalWrite(in1, HIGH); 
     digitalWrite(in2, LOW);
@@ -39,13 +67,15 @@ void loop() {
 
   frenar_motores();
 
-  Serial.write(ping(int TriggerPin, int EchoPin, 0);, (ping(int TriggerPin, int EchoPin, 180););
+  Serial.write('x' + ping(TriggerPin, EchoPin, 0));
+  Serial.write('y' + ping(TriggerPin, EchoPin, 180));
 
   
-  if(Serial.available > 0) {
+  if(Serial.available() > 0) {
+    int message;
     message = Serial.read();
 
-    if message == 'x' { 
+    if (message == 'a') { 
       
       analogWrite(EnA, velocity); 
       digitalWrite(in3, HIGH);
@@ -53,57 +83,33 @@ void loop() {
          
      }
 
-    if message == 'y' { 
+    if (message == 'b') { 
 
       analogWrite(EnA, velocity);
       digitalWrite(in1, HIGH); 
       digitalWrite(in2, LOW);
 
-     }
+    }
     
    }
+ }
 
    int subir_velocidad() { 
 
-    if velocity <= 240 {
+    if (velocity <= 240) {
       
-      int velocity += 10; 
+      int velocity =  velocity + 10; 
     }
    }
 
    int bajar_velocidad() { 
 
-    if velocity >= 30 { 
+    if (velocity >= 30) { 
 
-      int velocity -= 10
+      int velocity = velocity - 10;
     }
    }
 
-   int frenar_motores() {
-
-    digitalWrite(in1, LOW);
-    digitalWrite(in2, LOW); 
-    digitalWrite(in3, LOW);
-    digitalWrite(in4, LOW); 
  
-   }
 
-
-   int ping(int TriggerPin, int EchoPin, int position_) {
-      servomotor.write(position_);
-      
-      long duration, distanceCm;
-   
-      digitalWrite(TriggerPin, LOW);  
-      delayMicroseconds(4);
-      digitalWrite(TriggerPin, HIGH);  
-      delayMicroseconds(10);
-      digitalWrite(TriggerPin, LOW);
-   
-      duration = pulseIn(EchoPin, HIGH);  
-   
-      distanceCm = duration * 10 / 292/ 2;   
-      return distanceCm;
-
-}
     
