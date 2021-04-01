@@ -1,0 +1,118 @@
+#include <Servo.h>
+
+int in1 = 10;
+int in2 = 9;
+int in3 = 6;
+int in4 = 5;
+int EnA = 11;
+int EnB = 12;
+int velocity = 30;
+int EchoPin = 2; 
+int TriggerPin = 7;
+
+Servo servomotor;
+
+void setup() {
+
+  Serial.begin(9600); 
+
+  pinMode(in1, OUTPUT); 
+  pinMode(in2, OUTPUT);
+  pinMode(in3, OUTPUT);
+  pinMode(in4, OUTPUT);
+  pinMode(EnA, OUTPUT);
+  pinMode(TriggerPin, OUTPUT);
+  pinMode(EchoPin, OUTPUT);
+  servomotor.attach(3);
+
+}
+
+int ping(int TriggerPin, int EchoPin, int position_) {
+  servomotor.write(position_);
+      
+  long duration, distanceCm;
+   
+  digitalWrite(TriggerPin, LOW);  
+  delayMicroseconds(4);
+  digitalWrite(TriggerPin, HIGH);  
+  delayMicroseconds(10);
+  digitalWrite(TriggerPin, LOW);
+   
+  duration = pulseIn(EchoPin, HIGH);  
+   
+  distanceCm = duration * 10 / 292/ 2;   
+  return distanceCm;
+
+}
+
+int frenar_motores() {
+
+  digitalWrite(in1, LOW);
+  digitalWrite(in2, LOW); 
+  digitalWrite(in3, LOW);
+  digitalWrite(in4, LOW); 
+ 
+}
+  
+
+void loop() {
+
+  if (ping(TriggerPin, EchoPin, 90) >= 30) {
+    analogWrite(EnA, velocity); 
+    analogWrite(EnB, velocity);
+    digitalWrite(in1, HIGH); 
+    digitalWrite(in2, LOW);
+    digitalWrite(in3, HIGH);
+    digitalWrite(in4, LOW);
+
+  }
+
+  frenar_motores();
+
+  Serial.write('x' + ping(TriggerPin, EchoPin, 0));
+  Serial.write('y' + ping(TriggerPin, EchoPin, 180));
+
+  
+  if(Serial.available() > 0) {
+    int message;
+    message = Serial.read();
+
+    if (message == 'a') { 
+      
+      analogWrite(EnB, velocity); 
+      digitalWrite(in3, HIGH);
+      digitalWrite(in4, LOW);
+         
+     }
+
+    if (message == 'b') { 
+
+      analogWrite(EnA, velocity);
+      digitalWrite(in1, HIGH); 
+      digitalWrite(in2, LOW);
+
+    }
+    
+   }
+ }
+
+   int subir_velocidad() { 
+
+    if (velocity <= 240) {
+      
+      int velocity =  velocity + 10; 
+    }
+   }
+
+   int bajar_velocidad() { 
+
+    if (velocity >= 30) { 
+
+      int velocity = velocity - 10;
+    }
+   }
+
+
+ 
+
+    
