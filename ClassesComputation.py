@@ -55,7 +55,7 @@ class Sensor:
             distance_1 = ''
 
             for char in range(1, len(response)):
-                distance_1 += str(char) 
+                distance_1 += str(response[char]) 
             
             f_distance_1 = int(distance_1) 
 
@@ -63,7 +63,7 @@ class Sensor:
             distance_2 = '' 
 
             for char in range(1, len(response)): 
-                distance_1 += str(char)  
+                distance_1 += str(response[char])  
 
             f_distance_2 = int(distance_2)
 
